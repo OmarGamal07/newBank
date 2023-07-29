@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -45,6 +46,11 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //
+         // Get the authenticated user's email
+         $email = Auth::user()->email;
+
+         // Pass the email to the view
+         return view('user.edit',['email'=>$email]);
     }
 
     /**
@@ -53,8 +59,23 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         //
-    }
+        // Validate the request data (you can add more validation rules as needed)
+        $request->validate([
+            'password' => 'required|min:8',
+        ]);
 
+        // Find the authenticated user by their email
+        $user = User::where('email', Auth::user()->email)->first();
+
+        // Update the user's password with the new password
+        $user->password = Hash::make($request->password);
+        $user->save();
+        Alert::success('تم تغير كلمه المرور');
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'تم تغير كلمه المرور');
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
