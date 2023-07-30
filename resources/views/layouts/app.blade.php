@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
@@ -78,6 +78,11 @@
                                 تسجيل خروج
                             </a>
 
+                            <a class="dropdown-item border-top" href="{{ route('forgotPassword') }}">
+                                تغيير كلمة المرور
+                            </a>
+
+
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
@@ -85,7 +90,7 @@
                     </li>
                 @endguest
 
-                
+
             </div>
         </div>
     </div>

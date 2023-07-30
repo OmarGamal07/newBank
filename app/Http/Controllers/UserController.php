@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -43,25 +46,28 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
         //
          // Get the authenticated user's email
          $email = Auth::user()->email;
 
          // Pass the email to the view
-         return view('user.edit',['email'=>$email]);
+         return view('client.forgotPassword',['email'=>$email]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         //
-        // Validate the request data (you can add more validation rules as needed)
         $request->validate([
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|confirmed',
+        ], [
+            'password.required' => 'حقل كلمة المرور مطلوب.',
+            'password.min' => 'حقل كلمة المرور يجب أن تحتوي على الأقل :min أحرف.',
+            'password.confirmed' => 'حقل تأكيد كلمة المرور لا يتطابق مع حقل كلمة المرور.',
         ]);
 
         // Find the authenticated user by their email
@@ -75,7 +81,7 @@ class UserController extends Controller
         // Redirect back with a success message
         return redirect()->back()->with('success', 'تم تغير كلمه المرور');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */

@@ -46,11 +46,11 @@ class TransferController extends Controller
         })
         ->where('status', 'accept')
         ->get();
-        
+
         $countTransfer=$transfers->count();
         $totalMount = $transfers->sum('mount');
         $clients = Client::all();
-        $banks = Bank::all(); 
+        $banks = Bank::all();
         $types = Type::all();
         return view('client.transfers', ['transfers'=>$transfers,'countTransfer'=>$countTransfer,'totalMount'=>$totalMount,'clients'=>$clients,'banks'=>$banks,'types'=>$types]);
     }
@@ -212,16 +212,16 @@ class TransferController extends Controller
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function export() 
+    public function export()
     {
         return Excel::download(new TransfersExport, 'transfers.xlsx');
         Alert::success('تم تحميل الحوالات بنجاح');
     }
-       
+
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function import() 
+    public function import()
     {
         Excel::import(new TransfersImport,request()->file('file'));
         Alert::success('تم حفظ الحوالات بنجاح');

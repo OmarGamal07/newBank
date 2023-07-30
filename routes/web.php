@@ -30,10 +30,12 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/filter',[TransferController::class, 'filter'])->name('transfer.filter');
-    Route::get('/all-data', [TransferController::class, 'fetchAllData'])->name('all.data'); 
+    Route::get('/all-data', [TransferController::class, 'fetchAllData'])->name('all.data');
     Route::get('transfers-export',[TransferController::class, 'export'])->name('transfers.export');
     Route::post('transfers-import',[TransferController::class,'import'])->name('transfers.import');
     Route::get('/my-transfers',[TransferController::class, 'clientTransfers'])->name('client.transfers');
+    Route::get('/forgot-password', [UserController::class, 'edit'])->name('forgotPassword');
+    Route::post('/update-password', [UserController::class, 'update'])->name('updatePassword');
 
 });
 
